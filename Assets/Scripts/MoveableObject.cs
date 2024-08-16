@@ -23,26 +23,26 @@ public class MoveableObject : MonoBehaviour
     void Update()
     {
         screenPosition = Input.mousePosition;
-        screenPosition.z = 1f;
-
+        screenPosition.z = Camera.main.nearClipPlane;
         worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+
         if (!Input.GetKey(KeyCode.Space))
         {
             isBeingMoved = false;
-            rigidbody.isKinematic = false;
         }
-        if (boxCollider.OverlapPoint(new Vector2(worldPosition.x, worldPosition.y)) && Input.GetKey(KeyCode.Space) && !isBeingMoved)
+        if (boxCollider.OverlapPoint(worldPosition) && Input.GetKey(KeyCode.Space) && !isBeingMoved)
         {
-            Vector3 objPosition = transform.position;
             isBeingMoved = true;
-            rigidbody.isKinematic = true;
-            initialOffset = new Vector2(objPosition.x-worldPosition.x, objPosition.y - worldPosition.y);
+            initialOffset = (Vector2)transform.position - (Vector2)worldPosition;
         }
+    }
 
+    void FixedUpdate() {
         if (isBeingMoved)
         {
-            transform.position = Vector3.MoveTowards(new Vector3(transform.position.x + initialOffset.x, transform.position.y + initialOffset.y, 0f), worldPosition, followSpeed);
+            Vector2 targetPosition = (Vector2)worldPosition + initialOffset;
+            Vector2 newPosition = Vector2.MoveTowards(rigidbody.position, targetPosition, followSpeed * Time.fixedDeltaTime);
+            rigidbody.MovePosition(newPosition);
         }
-
     }
 }

@@ -5,13 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    [SerializeField] public float playerSpeed = 0.025f;
-    [SerializeField] public float jumpForce = 0.025f;
+    [SerializeField] public float playerSpeed = 5f;
+    [SerializeField] public float jumpForce = 10f;
+    [SerializeField] public float maxSpeed = 10f;
     public Animator animator;
     private SpriteRenderer spriteRenderer;
     private bool isFacingRight = true;
     public bool isGrounded = false;
     private Rigidbody2D rigidBody;
+    private Vector2 velocity;
 
     // Start is called before the first frame update
     void Start()
@@ -24,35 +26,38 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(new Vector3(Time.deltaTime * playerSpeed, 0f, 0f));
-            this.isFacingRight = true;
-            if (isGrounded )
-            {
-                animator.SetBool("isRunning", true);
-            }
-        }
-        if (Input.GetKey(KeyCode.A)){
-            this.isFacingRight = false;
-            transform.Translate(new Vector3(Time.deltaTime * -playerSpeed, 0f, 0f));
-            if (isGrounded)
-            {
-                animator.SetBool("isRunning", true);
-            }
-        }
-        if (Input.GetKey(KeyCode.W) && isGrounded)
-        {
-            this.rigidBody.AddForce(new Vector3(0f, jumpForce, 0f));
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+
+        rigidBody.velocity = new Vector2(moveHorizontal * playerSpeed, rigidBody.velocity.y);
+        rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, maxSpeed);
+        
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded) {
+            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
         }
-        if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
-        {
-            animator.SetBool("isRunning", false);
-        }
-        this.spriteRenderer.flipX = !isFacingRight;
+
+        animator.SetBool("isRunning", moveHorizontal != 0);
         animator.SetBool("isGrounded", isGrounded);
+
+        if (moveHorizontal > 0 && !isFacingRight)
+        {
+            Flip();
+        }
+        else if (moveHorizontal < 0 && isFacingRight)
+        {
+            Flip();
+        }
     }
+
+    void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        spriteRenderer.flipX = !isFacingRight;
+    }
+
+    // void FixedUpdate() {
+    //     this.rigidBody.MovePosition(this.rigidBody.position + this.velocity * Time.deltaTime);
+    // }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -67,5 +72,6 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         isGrounded = false;
+        // this.velocity.y = 0;
     }
 }
