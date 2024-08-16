@@ -10,7 +10,7 @@ public class MoveableObject : MonoBehaviour
     public BoxCollider2D boxCollider;
     public bool isBeingMoved = false;
     public Vector2 initialOffset;
-    public float moveSpeed = 5;
+    public float followSpeed = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -29,29 +29,19 @@ public class MoveableObject : MonoBehaviour
         if (!Input.GetKey(KeyCode.Space))
         {
             isBeingMoved = false;
+            rigidbody.isKinematic = false;
         }
         if (boxCollider.OverlapPoint(new Vector2(worldPosition.x, worldPosition.y)) && Input.GetKey(KeyCode.Space) && !isBeingMoved)
         {
             Vector3 objPosition = transform.position;
             isBeingMoved = true;
+            rigidbody.isKinematic = true;
             initialOffset = new Vector2(objPosition.x-worldPosition.x, objPosition.y - worldPosition.y);
         }
 
         if (isBeingMoved)
         {
-            transform.position = Vector3.MoveTowards(new Vector3(transform.position.x + initialOffset.x, transform.position.y + initialOffset.y, 0f), worldPosition, moveSpeed);
-            
-            /*
-            Vector2 distanceToMouse = new Vector2(worldPosition.x - (transform.position.x + initialOffset.x), worldPosition.y - (transform.position.y + initialOffset.y));
-            float force = 100;
-            float scaleFactor = (distanceToMouse.magnitude / 10) * Mathf.Sqrt(Mathf.Pow(force, 2) / (Mathf.Pow(distanceToMouse.x, 2) + Mathf.Pow(distanceToMouse.y, 2)));
-
-            rigidbody.AddForce(new Vector3(scaleFactor * distanceToMouse.x, scaleFactor * distanceToMouse.y, 0f), ForceMode2D.Impulse);
-
-            //if(distanceToMouse.magnitude <= 50)
-            //{
-              //  transform.position = new Vector3(worldPosition.x + initialOffset.x, worldPosition.y + initialOffset.y);
-            //} */
+            transform.position = Vector3.MoveTowards(new Vector3(transform.position.x + initialOffset.x, transform.position.y + initialOffset.y, 0f), worldPosition, followSpeed);
         }
 
     }
