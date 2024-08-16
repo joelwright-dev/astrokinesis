@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(new Vector3(playerSpeed, 0f, 0f));
+            transform.Translate(new Vector3(Time.deltaTime * playerSpeed, 0f, 0f));
             this.isFacingRight = true;
             if (isGrounded )
             {
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A)){
             this.isFacingRight = false;
-            transform.Translate(new Vector3(-playerSpeed, 0f, 0f));
+            transform.Translate(new Vector3(Time.deltaTime * -playerSpeed, 0f, 0f));
             if (isGrounded)
             {
                 animator.SetBool("isRunning", true);
