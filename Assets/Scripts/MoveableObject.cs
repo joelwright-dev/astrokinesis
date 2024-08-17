@@ -4,58 +4,35 @@ using UnityEngine;
 
 public class MoveableObject : MonoBehaviour
 {
-    public Vector3 screenPosition;
-    public Vector3 worldPosition;
-    public Rigidbody2D rigidbody;
+    public Rigidbody2D rb;
     public BoxCollider2D boxCollider;
-    public object disintegrationGrid;
-    public bool isBeingMoved = false;
-    public Vector2 initialOffset;
-    public float followSpeed = 5;
+    public float followSpeed = 5f;
     public float destroyDuration = 0.5f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Move(Vector2 targetPosition)
     {
-        screenPosition = Input.mousePosition;
-        screenPosition.z = Camera.main.nearClipPlane;
-        worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        Vector2 newPosition = Vector2.MoveTowards(rb.position, targetPosition, followSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(newPosition);
+    }
 
-        if (!Input.GetKey(KeyCode.Space))
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Jump Pad"))
         {
-            isBeingMoved = false;
-        }
-        if (boxCollider.OverlapPoint(worldPosition) && Input.GetKey(KeyCode.Space) && !isBeingMoved)
-        {
-            isBeingMoved = true;
-            initialOffset = (Vector2)transform.position - (Vector2)worldPosition;
+            rb.AddForce(Vector2.up * 11, ForceMode2D.Impulse);
         }
     }
 
-    void FixedUpdate() {
-        if (isBeingMoved)
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Disintegration Grid"))
         {
-            Vector2 targetPosition = (Vector2)worldPosition + initialOffset;
-            Vector2 newPosition = Vector2.MoveTowards(rigidbody.position, targetPosition, followSpeed * Time.fixedDeltaTime);
-            rigidbody.MovePosition(newPosition);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if(collision.gameObject.tag == "Jump Pad") {
-            rigidbody.AddForce(Vector2.up * 11, ForceMode2D.Impulse);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider) {
-        if(collider.gameObject.tag == "Disintegration Grid") {
             StartCoroutine(ScaleDownAndDestroy());
         }
     }
