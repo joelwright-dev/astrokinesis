@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool isDead = false;
     public float respawnDelay = 2f;
     private Vector2 spawnPoint = new Vector2(-7.5f, -2.4725f);
+    private ParticleSystem particleSystem;
 
     [SerializeField] private AudioClip jumpClip;
     [SerializeField] private AudioClip jumpPadClip;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
+        particleSystem = this.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -57,10 +59,12 @@ public class PlayerController : MonoBehaviour
 
             if (moveHorizontal > 0 && !isFacingRight)
             {
+                particleSystem.transform.localScale = new Vector3(-1f, 0f, 0f);
                 Flip();
             }
             else if (moveHorizontal < 0 && isFacingRight)
             {
+                particleSystem.transform.localScale = new Vector3(1f, 0f, 0f);
                 Flip();
             }
         } else {

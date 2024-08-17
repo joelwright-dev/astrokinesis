@@ -73,7 +73,9 @@ public class SoundFXManager : MonoBehaviour
             }
         }
         
-        Destroy(audioSource.gameObject);
+        if(audioSource != null) {
+            Destroy(audioSource.gameObject);
+        }
     }
 
     public void StopSoundFX(string clipName)
