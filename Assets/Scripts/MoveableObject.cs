@@ -8,6 +8,7 @@ public class MoveableObject : MonoBehaviour
     public Vector3 worldPosition;
     public Rigidbody2D rigidbody;
     public BoxCollider2D boxCollider;
+    public object disintegrationGrid;
     public bool isBeingMoved = false;
     public Vector2 initialOffset;
     public float followSpeed = 5;
@@ -43,6 +44,12 @@ public class MoveableObject : MonoBehaviour
             Vector2 targetPosition = (Vector2)worldPosition + initialOffset;
             Vector2 newPosition = Vector2.MoveTowards(rigidbody.position, targetPosition, followSpeed * Time.fixedDeltaTime);
             rigidbody.MovePosition(newPosition);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider) {
+        if(collider.gameObject.tag == "Disintegration Grid") {
+            Destroy(gameObject);
         }
     }
 }
