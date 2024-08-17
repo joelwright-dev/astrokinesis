@@ -12,7 +12,7 @@ public class MoveableObject : MonoBehaviour
     public bool isBeingMoved = false;
     public Vector2 initialOffset;
     public float followSpeed = 5;
-    public float destroyDuration = 1f;
+    public float destroyDuration = 0.5f;
 
     // Start is called before the first frame update
     void Start()
