@@ -8,6 +8,7 @@ public class MoveableObject : MonoBehaviour
     public BoxCollider2D boxCollider;
     public float followSpeed = 5f;
     public float destroyDuration = 0.5f;
+    [SerializeField] private AudioClip disintegrateClip;
 
     void Start()
     {
@@ -33,6 +34,7 @@ public class MoveableObject : MonoBehaviour
     {
         if (collider.CompareTag("Disintegration Grid"))
         {
+            SoundFXManager.instance.PlaySoundFXClip(disintegrateClip, transform, 1f);
             StartCoroutine(ScaleDownAndDestroy());
         }
     }

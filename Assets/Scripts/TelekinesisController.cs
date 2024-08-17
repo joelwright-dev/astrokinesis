@@ -13,6 +13,9 @@ public class TelekinesisController : MonoBehaviour
     private MoveableObject currentObject;
     private Vector2 initialOffset;
 
+    [SerializeField] private AudioClip telekinesisClip;
+    [SerializeField] private AudioClip cooldownClip;
+
     void Start()
     {
         currentTelekinesisDuration = maxTelekinesisDuration;
@@ -61,6 +64,7 @@ public class TelekinesisController : MonoBehaviour
             cooldownTimeLeft -= Time.deltaTime;
             if (cooldownTimeLeft <= 0)
             {
+                SoundFXManager.instance.StopSoundFX(cooldownClip.name);
                 isCoolingDown = false;
                 cooldownTimeLeft = 0f;
                 // Don't reset telekinesis duration here, it will recharge gradually
@@ -83,6 +87,7 @@ public class TelekinesisController : MonoBehaviour
 
     void StartTelekinesis(MoveableObject obj, Vector2 worldPosition)
     {
+        SoundFXManager.instance.PlaySoundFXClip(telekinesisClip, obj.transform, 1f);
         currentObject = obj;
         initialOffset = (Vector2)obj.transform.position - worldPosition;
         currentObject.transform.Find("Particle System").gameObject.SetActive(true);
@@ -90,12 +95,14 @@ public class TelekinesisController : MonoBehaviour
 
     void EndTelekinesis()
     {
+        SoundFXManager.instance.StopSoundFX(telekinesisClip.name);
         currentObject.transform.Find("Particle System").gameObject.SetActive(false);
         currentObject = null;
         if (currentTelekinesisDuration <= 0)
         {
             isCoolingDown = true;
             cooldownTimeLeft = cooldownDuration;
+            SoundFXManager.instance.PlaySoundFXClip(cooldownClip, Camera.main.transform, 1f);
         }
     }
 

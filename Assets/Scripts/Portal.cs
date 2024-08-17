@@ -8,9 +8,11 @@ public class Portal : MonoBehaviour
     public bool isActive = true;
     private bool isCoolingDown = false;
     public float cooldownTime = 0.5f;
+    [SerializeField] private AudioClip teleportClip;
 
     private void OnTriggerEnter2D(Collider2D other) {
         if((other.CompareTag("Player") || other.CompareTag("Moveable")) && isActive && !isCoolingDown && linkedPortal != null) {
+            SoundFXManager.instance.PlaySoundFXClip(teleportClip, transform, 1f);
             StartCoroutine(TeleportObject(other.gameObject));
         }
     }

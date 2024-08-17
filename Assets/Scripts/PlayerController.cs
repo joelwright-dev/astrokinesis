@@ -20,6 +20,11 @@ public class PlayerController : MonoBehaviour
     public float respawnDelay = 2f;
     private Vector2 spawnPoint = new Vector2(-7.5f, -2.4725f);
 
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip jumpPadClip;
+    [SerializeField] private AudioClip[] walkClips;
+    [SerializeField] private AudioClip dieClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +41,13 @@ public class PlayerController : MonoBehaviour
 
             rigidBody.velocity = new Vector2(moveHorizontal * playerSpeed, rigidBody.velocity.y);
             rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, maxSpeed);
+
+            if((rigidBody.velocity.x > 0 || rigidBody.velocity.x < 0) && isGrounded) {
+                SoundFXManager.instance.PlayRandomSoundFXClip(walkClips, transform, 1f);
+            }
             
             if (Input.GetKeyDown(KeyCode.W) && isGrounded) {
+                SoundFXManager.instance.PlaySoundFXClip(jumpClip, transform, 1f);
                 rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 isGrounded = false;
             }
@@ -66,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        SoundFXManager.instance.PlaySoundFXClip(dieClip, transform, 1f);
         if (isDead) return; // Prevent multiple calls to Die()
         isDead = true;
         Invoke("RespawnOrGameOver", respawnDelay);
@@ -84,6 +95,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.tag == "Jump Pad") {
+            SoundFXManager.instance.PlaySoundFXClip(jumpPadClip, transform, 1f);
             rigidBody.AddForce(Vector2.up * jumpPadForce, ForceMode2D.Impulse);
         }
     }
