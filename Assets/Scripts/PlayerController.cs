@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public float playerSpeed = 5f;
     [SerializeField] public float jumpForce = 10f;
+    [SerializeField] public float jumpPadForce = 1200;
     [SerializeField] public float maxSpeed = 10f;
     public Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -55,9 +56,11 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.flipX = !isFacingRight;
     }
 
-    // void FixedUpdate() {
-    //     this.rigidBody.MovePosition(this.rigidBody.position + this.velocity * Time.deltaTime);
-    // }
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.gameObject.tag == "Jump Pad") {
+            rigidBody.AddForce(Vector2.up * jumpPadForce, ForceMode2D.Impulse);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

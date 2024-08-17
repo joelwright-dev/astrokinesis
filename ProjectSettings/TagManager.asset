@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Moveable
   - Disintegration Grid
+  - Jump Pad
   layers:
   - Default
   - TransparentFX
