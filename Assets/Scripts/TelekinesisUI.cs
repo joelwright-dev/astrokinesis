@@ -26,7 +26,7 @@ public class TelekinesisUI : MonoBehaviour
             telekinesisSlider.gameObject.transform.Find("Background").GetComponent<Image>().color = Color.yellow;
             telekinesisSlider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.yellow;
         } else {
-telekinesisSlider.gameObject.transform.Find("Background").GetComponent<Image>().color = originalColor;
+            telekinesisSlider.gameObject.transform.Find("Background").GetComponent<Image>().color = originalColor;
             telekinesisSlider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = originalColor;
         }
 

@@ -85,10 +85,12 @@ public class TelekinesisController : MonoBehaviour
     {
         currentObject = obj;
         initialOffset = (Vector2)obj.transform.position - worldPosition;
+        currentObject.transform.Find("Particle System").gameObject.SetActive(true);
     }
 
     void EndTelekinesis()
     {
+        currentObject.transform.Find("Particle System").gameObject.SetActive(false);
         currentObject = null;
         if (currentTelekinesisDuration <= 0)
         {
