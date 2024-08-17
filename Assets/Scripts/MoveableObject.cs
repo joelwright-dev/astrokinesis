@@ -12,6 +12,7 @@ public class MoveableObject : MonoBehaviour
     public bool isBeingMoved = false;
     public Vector2 initialOffset;
     public float followSpeed = 5;
+    public float destroyDuration = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -47,9 +48,32 @@ public class MoveableObject : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.gameObject.tag == "Jump Pad") {
+            rigidbody.AddForce(Vector2.up * 11, ForceMode2D.Impulse);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collider) {
         if(collider.gameObject.tag == "Disintegration Grid") {
-            Destroy(gameObject);
+            StartCoroutine(ScaleDownAndDestroy());
         }
+    }
+
+    private IEnumerator ScaleDownAndDestroy() {
+        Vector2 originalScale = transform.localScale;
+        Vector2 targetScale = Vector2.one * 0.01f;
+        float elapsedTime = 0f;
+        float duration = destroyDuration;
+
+        while (elapsedTime < duration) {
+            transform.localScale = Vector2.Lerp(originalScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localScale = targetScale;
+
+        Destroy(gameObject);
     }
 }
