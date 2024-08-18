@@ -1,6 +1,6 @@
 @echo off
 
-start "" "C:\Users\joelw\UQCS Hackathon\Build\UQCS Hackathon.exe"
+start "" "C:\Users\joelw\UQCS Hackathon\Build\astrokinesis.exe"
 
 timeout 20
 
