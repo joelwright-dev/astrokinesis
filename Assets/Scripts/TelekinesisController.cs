@@ -16,10 +16,14 @@ public class TelekinesisController : MonoBehaviour
     [SerializeField] private AudioClip telekinesisClip;
     [SerializeField] private AudioClip cooldownClip;
 
+    [SerializeField] public GameObject hand;
+    private HandScript handScript;
+
     void Start()
     {
         currentTelekinesisDuration = maxTelekinesisDuration;
         cooldownTimeLeft = 0f;
+        handScript = hand.GetComponent<HandScript>();
     }
 
     void Update()
@@ -32,11 +36,9 @@ public class TelekinesisController : MonoBehaviour
     {
         if (isCoolingDown) return;
 
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.nearClipPlane;
-        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 worldPosition = hand.transform.position;
 
-        if (Input.GetKey(KeyCode.Space) && currentTelekinesisDuration > 0)
+        if (handScript.closed && currentTelekinesisDuration > 0)
         {
             if (currentObject == null)
             {
@@ -110,10 +112,7 @@ public class TelekinesisController : MonoBehaviour
     {
         if (currentObject != null)
         {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = Camera.main.nearClipPlane;
-            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            Vector2 targetPosition = worldPosition + initialOffset;
+            Vector2 targetPosition = new Vector2(hand.transform.position.x, hand.transform.position.y) + initialOffset;
             currentObject.Move(targetPosition);
         }
     }

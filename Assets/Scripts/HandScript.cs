@@ -22,6 +22,8 @@ public class HandScript : MonoBehaviour
 
     bool running;
 
+    public bool closed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,10 +47,12 @@ public class HandScript : MonoBehaviour
         if (handIsClosed == 1f)
         {
             animator.SetBool("isOpen", false);
+            closed = true;
         }
         else
         {
             animator.SetBool("isOpen", true);
+            closed = false;
         }
     }
 
