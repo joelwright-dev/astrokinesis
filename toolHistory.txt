@@ -5,3 +5,4 @@ Claude was used to assist with script creation, debugging, and story elements.
 3. Improving the moveable object script to allow control of multiple objects
 4. Debugging a sound effect manager script and assistance in creating a random sound effect method
 5. Assistance with story line and name
+6. Improving tracking of hand inside of Unity
