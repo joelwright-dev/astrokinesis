@@ -8,6 +8,7 @@ TagManager:
   - Disintegration Grid
   - Jump Pad
   - Spike
+  - End
   layers:
   - Default
   - TransparentFX

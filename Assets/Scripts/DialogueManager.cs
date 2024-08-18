@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private AudioClip[] typeClips;
 
     private Queue<string> sentences;
+    private bool hasPlayedEndDialogue = false;
 
     void Start()
     {
@@ -39,8 +40,23 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(TypeDialogue());
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("End") && !hasPlayedEndDialogue)
+        {
+            StopAllCoroutines();
+            sentences.Clear();
+            sentences.Enqueue("[Home Base]: Thank you for playing brave Astronaut. We hope you enjoyed the demo!");
+
+            hasPlayedEndDialogue = true;
+            StartCoroutine(TypeDialogue());
+        }
+    }
+
     IEnumerator TypeDialogue()
     {
+        dialogueText.gameObject.SetActive(true);
+        
         while(sentences.Count > 0)
         {
             string currentSentence = sentences.Dequeue();
@@ -49,7 +65,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(delayBetweenMessages);
-        Destroy(dialogueText.gameObject);
+        dialogueText.gameObject.SetActive(false);
     }
 
     IEnumerator TypeSentence(string sentence)
