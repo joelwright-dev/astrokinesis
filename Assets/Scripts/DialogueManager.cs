@@ -11,7 +11,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private AudioClip[] typeClips;
 
     private Queue<string> sentences;
-    private bool hasPlayedEndDialogue = false;
+    public bool hasPlayedEndDialogue = false;
 
     void Start()
     {

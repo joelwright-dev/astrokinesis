@@ -2,7 +2,6 @@ import cv2
 import math
 import mediapipe as mp
 import socket
-import numpy as np
 
 # Initialize Mediapipe
 mp_drawing = mp.solutions.drawing_utils

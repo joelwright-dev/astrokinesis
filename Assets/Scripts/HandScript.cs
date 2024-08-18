@@ -24,6 +24,10 @@ public class HandScript : MonoBehaviour
 
     public bool closed;
 
+    public float positionThreshold = 2f;
+    public float resetTime = 2f;
+    private float timer = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,10 +42,24 @@ public class HandScript : MonoBehaviour
     {
         float handIsClosed = receivedPos.x;
 
-        if (Vector3.Distance(cam.ScreenToWorldPoint(new Vector3(receivedPos.y, receivedPos.z, 5)), worldPos) < 10)
+        Vector3 targetPosition = cam.ScreenToWorldPoint(new Vector3(receivedPos.y, receivedPos.z, 5));
+
+        if (Vector3.Distance(worldPos, targetPosition) < positionThreshold)
         {
-            worldPos = cam.ScreenToWorldPoint(new Vector3(receivedPos.y, receivedPos.z, 5));
+            worldPos = targetPosition;
+            timer = 0f;
         }
+        else
+        {
+            timer += Time.deltaTime;
+            
+            if (timer >= resetTime)
+            {
+                worldPos = targetPosition;
+                timer = 0f; 
+            }
+        }
+
         transform.position = worldPos;
 
         if (handIsClosed == 1f)

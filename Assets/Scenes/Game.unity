@@ -8829,9 +8829,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.0011862396
-    y: 0.0018975332
+    y: 0.0018982537
     width: 0.9964413
-    height: 0.9943074
+    height: 0.99468493
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -9093,6 +9093,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 59039813904358204, guid: 9b2962a42cf71b94bbc0d24cb81891a3, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1149479946}
+    - targetCorrespondingSourceObject: {fileID: 59039813904358204, guid: 9b2962a42cf71b94bbc0d24cb81891a3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1149479953}
   m_SourcePrefab: {fileID: 100100000, guid: 9b2962a42cf71b94bbc0d24cb81891a3, type: 3}
 --- !u!1 &619394800
 GameObject:
@@ -10641,6 +10644,25 @@ MonoBehaviour:
   telekinesisClip: {fileID: 8300000, guid: b518c52b41a10b84eafd73ce53c1cefa, type: 3}
   cooldownClip: {fileID: 8300000, guid: b634da5bd3aea1e41b74cebb0abd4ab8, type: 3}
   hand: {fileID: 1166005775}
+--- !u!114 &1149479953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727868445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe7455ee3034b84681b19735ef6bf60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: {fileID: 1884105336}
+  typingSpeed: 0.05
+  delayBetweenMessages: 2.5
+  typeClips:
+  - {fileID: 8300000, guid: fe5feaff04c05234b9ac3ec26a27ef3d, type: 3}
+  - {fileID: 8300000, guid: 777c2aea664fe0b479d1a96b449e6ba0, type: 3}
+  hasPlayedEndDialogue: 0
 --- !u!1 &1166005775
 GameObject:
   m_ObjectHideFlags: 0
@@ -10764,6 +10786,8 @@ MonoBehaviour:
   connectionIP: 127.0.0.1
   connectionPort: 1234
   closed: 0
+  positionThreshold: 2
+  resetTime: 2
 --- !u!1 &1230468105
 GameObject:
   m_ObjectHideFlags: 0
@@ -11169,6 +11193,83 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1648529418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1648529420}
+  - component: {fileID: 1648529419}
+  m_Layer: 0
+  m_Name: End
+  m_TagString: End
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &1648529419
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648529418}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!4 &1648529420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648529418}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 105, y: 13.999999, z: -0.08218686}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -47527,7 +47628,6 @@ GameObject:
   - component: {fileID: 2006447358}
   - component: {fileID: 2006447357}
   - component: {fileID: 2006447361}
-  - component: {fileID: 2006447362}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -47635,24 +47735,6 @@ MonoBehaviour:
   telekinesisController: {fileID: 1149479946}
   telekinesisSlider: {fileID: 440667448}
   cooldownSlider: {fileID: 1849028660}
---- !u!114 &2006447362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006447356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe7455ee3034b84681b19735ef6bf60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueText: {fileID: 1884105336}
-  typingSpeed: 0.05
-  delayBetweenMessages: 2.5
-  typeClips:
-  - {fileID: 8300000, guid: fe5feaff04c05234b9ac3ec26a27ef3d, type: 3}
-  - {fileID: 8300000, guid: 777c2aea664fe0b479d1a96b449e6ba0, type: 3}
 --- !u!1 &2131320576
 GameObject:
   m_ObjectHideFlags: 0
@@ -47892,3 +47974,4 @@ SceneRoots:
   - {fileID: 1486020686}
   - {fileID: 1116789845}
   - {fileID: 2143391676}
+  - {fileID: 1648529420}
