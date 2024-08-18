@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
-        particleSystem = this.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -59,12 +58,10 @@ public class PlayerController : MonoBehaviour
 
             if (moveHorizontal > 0 && !isFacingRight)
             {
-                particleSystem.transform.localScale = new Vector3(-1f, 0f, 0f);
                 Flip();
             }
             else if (moveHorizontal < 0 && isFacingRight)
             {
-                particleSystem.transform.localScale = new Vector3(1f, 0f, 0f);
                 Flip();
             }
         } else {
