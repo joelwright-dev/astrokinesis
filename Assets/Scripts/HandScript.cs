@@ -28,8 +28,6 @@ public class HandScript : MonoBehaviour
     public float resetTime = 2f;
     private float timer = 0f;
 
-    public PythonLauncher pythonLauncher;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -83,8 +81,6 @@ public class HandScript : MonoBehaviour
         listener.Start();
 
         client = listener.AcceptTcpClient();
-
-        pythonLauncher.LaunchPythonScript();
 
         running = true;
         while (running)
